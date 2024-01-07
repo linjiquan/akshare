@@ -4335,6 +4335,7 @@ from akshare.bond.bond_zh_cov_sina import (
     bond_zh_hs_cov_min,
     bond_zh_hs_cov_pre_min,
     bond_zh_cov_value_analysis,
+    bond_full_list,
 )
 from akshare.bond.bond_convert import (
     bond_cb_jsl,

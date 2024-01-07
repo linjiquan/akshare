@@ -339,117 +339,107 @@ def bond_zh_cov() -> pd.DataFrame:
         temp_df = pd.DataFrame(data_json["result"]["data"])
         big_df = pd.concat([big_df, temp_df], ignore_index=True)
 
-    big_df.columns = [
-        "债券代码",
-        "_",
-        "_",
-        "债券简称",
-        "_",
-        "上市时间",
-        "正股代码",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "发行规模",
-        "申购上限",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "申购代码",
-        "_",
-        "申购日期",
-        "_",
-        "_",
-        "中签号发布日",
-        "原股东配售-股权登记日",
-        "正股简称",
-        "原股东配售-每股配售额",
-        "_",
-        "中签率",
-        "-",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "正股价",
-        "转股价",
-        "转股价值",
-        "债现价",
-        "转股溢价率",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-        "_",
-    ]
-    big_df = big_df[
-        [
-            "债券代码",
-            "债券简称",
-            "申购日期",
-            "申购代码",
-            "申购上限",
-            "正股代码",
-            "正股简称",
-            "正股价",
-            "转股价",
-            "转股价值",
-            "债现价",
-            "转股溢价率",
-            "原股东配售-股权登记日",
-            "原股东配售-每股配售额",
-            "发行规模",
-            "中签号发布日",
-            "中签率",
-            "上市时间",
-        ]
-    ]
+    big_df.rename(columns={
+    'SECURITY_CODE': '转债代码',
+    'SECUCODE': '交易代码',
+    'TRADE_MARKET': '交易市场',
+    'SECURITY_NAME_ABBR': '转债名称',
+    'DELIST_DATE': '退市日期',
+    'LISTING_DATE': '上市日期',
+    'CONVERT_STOCK_CODE': '正股代码',
+    'BOND_EXPIRE': '债券期限',
+    'RATING': '信用评级',
+    'VALUE_DATE': '起息日期',
+    'ISSUE_YEAR': '债券年度',
+    'CEASE_DATE': '止息日期',
+    'EXPIRE_DATE': '到期日期',
+    'PAY_INTEREST_DAY': '付息日期',
+    'INTEREST_RATE_EXPLAIN': '利率说明',
+    'BOND_COMBINE_CODE': '联合编码',
+    'ACTUAL_ISSUE_SCALE': '发行规模',
+    'ISSUE_PRICE': '发行价格',
+    'REMARK': '备注',
+    'REDEEM_TYPE': '赎回类型',
+    'EXECUTE_REASON_HS': '回售原因',
+    'NOTICE_DATE_HS': '最新回售公告日',
+    'NOTICE_DATE_SH': '最新赎回公告日',
+    'EXECUTE_PRICE_HS': '回售价格',
+    'EXECUTE_PRICE_SH': '赎回价格',
+    'RECORD_DATE_SH': '赎回登记日期',
+    'EXECUTE_START_DATESH': '最新赎回执行日',
+    'EXECUTE_START_DATEHS': '最新回售执行日',
+    'EXECUTE_END_DATE': '最新回售截止日',
+    'CORRECODE': '申购代码',
+    'CORRECODE_NAME_ABBR': '申购名称',
+    'PUBLIC_START_DATE': '申购日期',
+    'CORRECODEO': '配债代码',
+    'CORRECODE_NAME_ABBRO': '配债名称',
+    'BOND_START_DATE': '中签号发布日',
+    'SECURITY_START_DATE': '原股东股权登记日',
+    'SECURITY_SHORT_NAME': '正股名称',
+    'FIRST_PER_PREPLACING': '原股东每股配售额',
+    'ONLINE_GENERAL_AAU': '申购上限',
+    'ONLINE_GENERAL_LWR': '中签率',
+    'INITIAL_TRANSFER_PRICE': '起始转股价',
+    'TRANSFER_END_DATE': '结束转股日',
+    'TRANSFER_START_DATE': '开始转股日',
+    'RESALE_CLAUSE': '回售条款',
+    'PARTY_NAME': '评级机构',
+    'CONVERT_STOCK_PRICE': '正股股价',
+    'TRANSFER_PRICE': '转股股价',
+    'TRANSFER_VALUE': '转股价值',
+    'CURRENT_BOND_PRICE': '债券现价',
+    'TRANSFER_PREMIUM_RATIO': '转股溢价率',
+    'CONVERT_STOCK_PRICEHQ': '赎回价格',
+    'MARKET': '市场',
+    'RESALE_TRIG_PRICE': '回售触发价',
+    'REDEEM_TRIG_PRICE': '强赎触发价',
+    'PBV_RATIO': '正股市净率',
+    'IB_START_DATE': '当期利息起始日',
+    'IB_END_DATE': '当期利息结束日',
+    'CASHFLOW_DATE': '下一付息日',
+    'COUPON_IR': '当期利率',
+    'PARAM_NAME': '交易所系统网上向社会公众投资者发行,交易所系统网上向原A股无限售股东优先配售',
+    'ISSUE_TYPE': '发行类型',
+    'EXECUTE_REASON_SH': '赎回原因',
+    'PAYDAYNEW': '付息日',
+    'CURRENT_BOND_PRICENEW': '交易价格',
+    'IS_CONVERT_STOCK': '是否可转股',
+    'IS_REDEEM': '是否可赎回',
+    'IS_SELLBACK': '是否可回售'}, inplace=True)
+
     big_df["申购日期"] = pd.to_datetime(big_df["申购日期"], errors="coerce").dt.date
     big_df["申购上限"] = pd.to_numeric(big_df["申购上限"], errors="coerce")
-    big_df["正股价"] = pd.to_numeric(big_df["正股价"], errors="coerce")
-    big_df["转股价"] = pd.to_numeric(big_df["转股价"], errors="coerce")
+    big_df["正股股价"] = pd.to_numeric(big_df["正股股价"], errors="coerce")
+    big_df["转股股价"] = pd.to_numeric(big_df["转股股价"], errors="coerce")
     big_df["转股价值"] = pd.to_numeric(big_df["转股价值"], errors="coerce")
-    big_df["债现价"] = pd.to_numeric(big_df["债现价"], errors="coerce")
+    big_df["债券现价"] = pd.to_numeric(big_df["债券现价"], errors="coerce")
     big_df["转股溢价率"] = pd.to_numeric(big_df["转股溢价率"], errors="coerce")
-    big_df["原股东配售-股权登记日"] = pd.to_datetime(
-        big_df["原股东配售-股权登记日"], errors="coerce"
+    big_df["原股东股权登记日"] = pd.to_datetime(
+        big_df["原股东股权登记日"], errors="coerce"
     ).dt.date
-    big_df["原股东配售-每股配售额"] = pd.to_numeric(big_df["原股东配售-每股配售额"], errors="coerce")
+    big_df["原股东每股配售额"] = pd.to_numeric(big_df["原股东每股配售额"], errors="coerce")
     big_df["发行规模"] = pd.to_numeric(big_df["发行规模"], errors="coerce")
     big_df["中签号发布日"] = pd.to_datetime(big_df["中签号发布日"], errors="coerce").dt.date
     big_df["中签率"] = pd.to_numeric(big_df["中签率"], errors="coerce")
-    big_df["上市时间"] = pd.to_datetime(big_df["上市时间"], errors="coerce").dt.date
+    big_df["上市日期"] = pd.to_datetime(big_df["上市日期"], errors="coerce").dt.date
+    big_df["到期日期"] = pd.to_datetime(big_df["到期日期"], errors="coerce").dt.date
+    big_df["起息日期"] = pd.to_datetime(big_df["起息日期"], errors="coerce").dt.date
+    big_df["止息日期"] = pd.to_datetime(big_df["止息日期"], errors="coerce").dt.date
+    big_df["退市日期"] = pd.to_datetime(big_df["退市日期"], errors="coerce").dt.date
+    big_df["最新赎回公告日"] = pd.to_datetime(big_df["最新赎回公告日"], errors="coerce").dt.date
+    big_df["最新回售公告日"] = pd.to_datetime(big_df["最新回售公告日"], errors="coerce").dt.date
+    big_df["赎回登记日期"] = pd.to_datetime(big_df["赎回登记日期"], errors="coerce").dt.date
+    big_df["最新赎回执行日"] = pd.to_datetime(big_df["最新赎回执行日"], errors="coerce").dt.date
+    big_df["最新回售执行日"] = pd.to_datetime(big_df["最新回售执行日"], errors="coerce").dt.date
+    big_df["最新回售截止日"] = pd.to_datetime(big_df["最新回售截止日"], errors="coerce").dt.date
+    big_df["结束转股日"] = pd.to_datetime(big_df["结束转股日"], errors="coerce").dt.date
+    big_df["开始转股日"] = pd.to_datetime(big_df["开始转股日"], errors="coerce").dt.date
+    big_df["当期利息起始日"] = pd.to_datetime(big_df["当期利息起始日"], errors="coerce").dt.date
+    big_df["当期利息结束日"] = pd.to_datetime(big_df["当期利息结束日"], errors="coerce").dt.date
+    big_df["下一付息日"] = pd.to_datetime(big_df["下一付息日"], errors="coerce").dt.date
 
-    big_df["债现价"] = big_df["债现价"].fillna(100)
+    big_df["债券现价"] = big_df["债券现价"].fillna(100)
     return big_df
 
 
@@ -666,33 +656,65 @@ def bond_zh_cov_value_analysis(symbol: str = "123138") -> pd.DataFrame:
     return temp_df
 
 
+def bond_full_list() -> pd.DataFrame:
+    """
+    聚合的可转债信息
+    :return: 聚合的可转债信息
+    :rtype: pandas.DataFrame
+    """
+    bond_basic_info = bond_zh_cov()
+    bond_cov_info = bond_cov_comparison()
+
+    key = '转债代码'
+
+    cols_diff = bond_cov_info.columns.difference(bond_basic_info.columns)
+    cols_to_use = cols_diff.tolist()
+    cols_to_use.append(key)
+    cols_to_use.remove('序号')
+
+    bond_data = pd.merge(left=bond_basic_info, right=bond_cov_info[cols_to_use], on=key)
+
+    # 添加双低
+    bond_data['双低'] = bond_data.apply(lambda row: row['债券现价'] + row['转股溢价率'], axis=1)
+
+    now = datetime.date.today()
+    bond_data['剩余年限'] = bond_data.apply(lambda row: (row['到期日期'] - now).days/365, axis=1)
+
+    bond_data['到期收益率'] = bond_data.apply(lambda row: 0 if row['债券现价'] == 0 else (row['到期赎回价']-row['债券现价'])/row['债券现价'], axis=1)
+    bond_data['到期年化收益率'] = bond_data.apply(lambda row: 0 if row['剩余年限'] == 0 else row['到期收益率']/row['剩余年限'], axis=1)
+
+    return bond_data
+
+
 if __name__ == "__main__":
+    # data = bond_full_list()
+    # print(data.head())
     bond_zh_hs_cov_min_df = bond_zh_hs_cov_min(
-        symbol="sz128039",
-        period="1",
+        symbol="sz128034",
+        period="60",
         adjust="hfq",
         start_date="1979-09-01 09:32:00",
         end_date="2222-01-01 09:32:00",
     )
     print(bond_zh_hs_cov_min_df)
-
-    bond_zh_hs_cov_pre_min_df = bond_zh_hs_cov_pre_min(symbol="sz128039")
-    print(bond_zh_hs_cov_pre_min_df)
-
-    bond_zh_hs_cov_daily_df = bond_zh_hs_cov_daily(symbol="sz128039")
-    print(bond_zh_hs_cov_daily_df)
-
-    bond_zh_hs_cov_spot_df = bond_zh_hs_cov_spot()
-    print(bond_zh_hs_cov_spot_df)
-
-    bond_zh_cov_df = bond_zh_cov()
-    print(bond_zh_cov_df)
-
-    bond_cov_comparison_df = bond_cov_comparison()
-    print(bond_cov_comparison_df)
-
-    bond_zh_cov_info_df = bond_zh_cov_info(symbol="123121", indicator="基本信息")
-    print(bond_zh_cov_info_df)
-
-    bond_zh_cov_value_analysis_df = bond_zh_cov_value_analysis(symbol="113527")
-    print(bond_zh_cov_value_analysis_df)
+    #
+    # bond_zh_hs_cov_pre_min_df = bond_zh_hs_cov_pre_min(symbol="sz128039")
+    # print(bond_zh_hs_cov_pre_min_df)
+    #
+    # bond_zh_hs_cov_daily_df = bond_zh_hs_cov_daily(symbol="sz128039")
+    # print(bond_zh_hs_cov_daily_df)
+    #
+    # bond_zh_hs_cov_spot_df = bond_zh_hs_cov_spot()
+    # print(bond_zh_hs_cov_spot_df)
+    #
+    # bond_zh_cov_df = bond_zh_cov()
+    # print(bond_zh_cov_df)
+    #
+    # bond_cov_comparison_df = bond_cov_comparison()
+    # print(bond_cov_comparison_df)
+    #
+    # bond_zh_cov_info_df = bond_zh_cov_info(symbol="123121", indicator="基本信息")
+    # print(bond_zh_cov_info_df)
+    #
+    # bond_zh_cov_value_analysis_df = bond_zh_cov_value_analysis(symbol="113527")
+    # print(bond_zh_cov_value_analysis_df)
